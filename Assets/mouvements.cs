@@ -22,10 +22,26 @@ public class mouvements : MonoBehaviour
         if (Input.GetKey(leftKey))
         {
             rgbd.AddForce(Vector2.left);
+            if (rgbd.velocity.x < -15f)
+            {
+                rgbd.velocity = new Vector2(-5f, rgbd.velocity.y);
+            }
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
         }
+
         if (Input.GetKey(rightKey))
         {
             rgbd.AddForce(Vector2.right);
+            if (rgbd.velocity.x < 15f)
+            {
+                rgbd.velocity = new Vector2(5f, rgbd.velocity.y);
+            }
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+
         }
     }
 }
