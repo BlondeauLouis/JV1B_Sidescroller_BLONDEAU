@@ -22,7 +22,7 @@ public class mouvements : MonoBehaviour
         if (Input.GetKey(leftKey))
         {
             rgbd.AddForce(Vector2.left);
-            if (rgbd.velocity.x < -15f)
+            if (rgbd.velocity.x > -15f)
             {
                 rgbd.velocity = new Vector2(-5f, rgbd.velocity.y);
             }
@@ -41,7 +41,8 @@ public class mouvements : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space))
         {
-
+            transform.Translate(0, 0.01f, 0);
         }
+
     }
 }
