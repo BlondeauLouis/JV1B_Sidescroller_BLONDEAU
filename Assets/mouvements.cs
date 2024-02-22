@@ -13,10 +13,14 @@ public class PlayerController : MonoBehaviour
     private bool isOnIce = false;
     private SpriteRenderer spriteRenderer;
 
+    public Transform[] respawnPoints;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+
     }
 
     private void Update()
@@ -79,6 +83,23 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ice"))
         {
             isOnIce = false;
+        }
+    }
+
+    public void RespawnPlayer(int respawnIndex)
+    {
+        // Vérifie si l'index de réapparition est valide
+        if (respawnIndex >= 0 && respawnIndex < respawnPoints.Length)
+        {
+            // Déplace le joueur vers le point de réapparition correspondant à l'index
+            transform.position = respawnPoints[respawnIndex].position;
+
+            // Réactive le joueur
+            gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("Invalid respawn index!");
         }
     }
 }
