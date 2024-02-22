@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         initialRockPosition = rockRigidbody.transform.position;
-        rockRigidbody.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -102,8 +101,6 @@ public class PlayerController : MonoBehaviour
             gameObject.SetActive(true);
 
             rockRigidbody.transform.position = initialRockPosition;
-
-            rockRigidbody.gameObject.SetActive(true);
         }
         else
         {
