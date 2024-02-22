@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         if (isOnIce)
         {
             // Appliquer le mouvement horizontal sur la glace avec la vitesse réduite
-            rb.velocity = new Vector2(horizontalMove * iceMoveSpeedMultiplier, rb.velocity.y);
+            rb.AddForce(Vector2.right * horizontalInput * moveSpeed * iceMoveSpeedMultiplier);
         }
         else
         {
