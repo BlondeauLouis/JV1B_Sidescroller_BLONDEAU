@@ -2,47 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class mouvements : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private KeyCode leftKey = KeyCode.LeftArrow, rightKey = KeyCode.RightArrow;
+    public float moveSpeed = 5f; // Vitesse de déplacement du joueur
+    public float jumpForce = 10f; // Force de saut du joueur
 
-    [SerializeField]
-    private Rigidbody2D rgbd;
+    private Rigidbody2D rb;
+    private bool isGrounded;
+    private SpriteRenderer spriteRenderer;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-
+        rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Input.GetKey(leftKey))
+        // Gérer les mouvements horizontaux
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float horizontalMove = horizontalInput * moveSpeed;
+
+        // Inverser l'axe du sprite si le joueur va vers la gauche
+        if (horizontalInput < 0)
         {
-            rgbd.AddForce(Vector2.left);
-            if (rgbd.velocity.x > -15f)
-            {
-                rgbd.velocity = new Vector2(-5f, rgbd.velocity.y);
-            }
-            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            spriteRenderer.flipX = true;
+        }
+        else if (horizontalInput > 0)
+        {
+            spriteRenderer.flipX = false;
         }
 
-        if (Input.GetKey(rightKey))
-        {
-            rgbd.AddForce(Vector2.right);
-            if (rgbd.velocity.x < 15f)
-            {
-                rgbd.velocity = new Vector2(5f, rgbd.velocity.y);
-            }
-            gameObject.GetComponent<SpriteRenderer>().flipX = false;
-        }
+        // Appliquer le mouvement horizontal
+        rb.velocity = new Vector2(horizontalMove, rb.velocity.y);
 
-        if (Input.GetKey(KeyCode.Space))
+        // Gérer le saut
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            transform.Translate(0, 0.01f, 0);
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+    }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Vérifier si le joueur est au sol
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // Vérifier si le joueur quitte le sol
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
     }
 }
