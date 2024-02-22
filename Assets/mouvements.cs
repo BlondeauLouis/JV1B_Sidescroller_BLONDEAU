@@ -6,9 +6,11 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f; // Vitesse de déplacement du joueur
     public float jumpForce = 10f; // Force de saut du joueur
+    public float iceMoveSpeedMultiplier = 0.5f; // Multiplicateur de vitesse sur la glace
 
     private Rigidbody2D rb;
     private bool isGrounded;
+    private bool isOnIce = false;
     private SpriteRenderer spriteRenderer;
 
     private void Start()
@@ -34,7 +36,16 @@ public class PlayerController : MonoBehaviour
         }
 
         // Appliquer le mouvement horizontal
-        rb.velocity = new Vector2(horizontalMove, rb.velocity.y);
+        if (isOnIce)
+        {
+            // Appliquer le mouvement horizontal sur la glace avec la vitesse réduite
+            rb.velocity = new Vector2(horizontalMove * iceMoveSpeedMultiplier, rb.velocity.y);
+        }
+        else
+        {
+            // Appliquer le mouvement horizontal normal
+            rb.velocity = new Vector2(horizontalMove, rb.velocity.y);
+        }
 
         // Gérer le saut
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -50,6 +61,11 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
+
+        if (collision.gameObject.CompareTag("Ice"))
+        {
+            isOnIce = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -58,6 +74,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
+        }
+
+        if (collision.gameObject.CompareTag("Ice"))
+        {
+            isOnIce = false;
         }
     }
 }
