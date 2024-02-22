@@ -14,13 +14,17 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     public Transform[] respawnPoints;
+    public Rigidbody2D rockRigidbody;
+
+    private Vector3 initialRockPosition;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-
+        initialRockPosition = rockRigidbody.transform.position;
+        rockRigidbody.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -96,6 +100,10 @@ public class PlayerController : MonoBehaviour
 
             // Réactive le joueur
             gameObject.SetActive(true);
+
+            rockRigidbody.transform.position = initialRockPosition;
+
+            rockRigidbody.gameObject.SetActive(true);
         }
         else
         {

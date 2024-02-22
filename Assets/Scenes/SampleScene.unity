@@ -6472,6 +6472,7 @@ MonoBehaviour:
   - {fileID: 314187282}
   - {fileID: 1575360028}
   - {fileID: 1074317377}
+  rockRigidbody: {fileID: 288784380}
 --- !u!50 &1997432265
 Rigidbody2D:
   serializedVersion: 4
