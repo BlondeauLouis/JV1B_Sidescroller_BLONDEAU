@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f; // Vitesse de déplacement du joueur
     public float jumpForce = 10f; // Force de saut du joueur
-    public float iceMoveSpeedMultiplier = 0.5f; // Multiplicateur de vitesse sur la glace
+    public float iceMoveSpeedMultiplier = 5f; // Multiplicateur de vitesse sur la glace
 
     private Rigidbody2D rb;
     private bool isGrounded;
